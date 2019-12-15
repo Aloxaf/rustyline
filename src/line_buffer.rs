@@ -196,6 +196,16 @@ impl LineBuffer {
             .map(|(i, _)| i)
     }
 
+    /// Returns the character just before the current cursor position.
+    pub fn prev_char(&self) -> Option<char> {
+        if self.pos == 0 {
+            return None;
+        }
+        self.buf
+            .chars()
+            .nth(self.pos - 1)
+    }
+
     /// Insert the character `ch` at current cursor position
     /// and advance cursor position accordingly.
     /// Return `None` when maximum buffer size has been reached,

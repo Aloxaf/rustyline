@@ -408,12 +408,20 @@ fn readline_edit<H: Helper>(
         }
 
         // autocomplete
-        if cmd == Cmd::Complete && s.helper.is_some() {
-            let next = complete_line(&mut rdr, &mut s, &mut input_state, &editor.config)?;
-            if let Some(next) = next {
-                cmd = next;
-            } else {
-                continue;
+        if cmd == Cmd::Complete {
+            match s.line.prev_char() {
+                None | Some(' ') | Some('\n') => {
+                    s.edit_insert(' ', 4)?;
+                }
+                _ => (),
+            }
+            if s.helper.is_some() {
+                let next = complete_line(&mut rdr, &mut s, &mut input_state, &editor.config)?;
+                if let Some(next) = next {
+                    cmd = next;
+                } else {
+                    continue;
+                }
             }
         }
 

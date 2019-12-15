@@ -224,7 +224,9 @@ impl<'out, 'prompt, H: Helper> State<'out, 'prompt, H> {
             let validated = match result {
                 ValidationResult::Incomplete => {
                     self.edit_move_end()?;
-                    self.edit_insert('\n', 1)?;
+                    // self.edit_insert('\n', 1)?;
+                    self.line.insert('\n', 1);
+                    self.edit_insert(' ', 3)?;
                     false
                 }
                 ValidationResult::Valid(msg) => {
